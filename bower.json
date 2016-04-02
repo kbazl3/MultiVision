@@ -1,0 +1,25 @@
+{
+  "name": "MultiVision",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Kyle Barlow <kbazlo@yahoo.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.2",
+    "toastr": "^2.1.2",
+    "angular": "^1.5.3",
+    "angular-resource": "^1.5.3",
+    "angular-route": "^1.5.3"
+  }
+}
