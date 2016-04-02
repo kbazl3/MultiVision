@@ -25,8 +25,6 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/public'));
 
-// mongoose.connect('mongodb://localhost/multivision');
-// mongoose.connect('mongodb://kbarlow:multivision@ds011830.mlab.com:11830/multivision');
 if (env === 'development') {
     mongoose.connect('mongodb://localhost/multivision');
 } else {
