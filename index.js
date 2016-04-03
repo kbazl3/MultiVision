@@ -1,60 +1,51 @@
 var express = require('express');
-var stylus = require('stylus'); //stylus serves up css files
-var logger = require('morgan');
-var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development'; //environment variable to determine in production mode or development mode.
 
 var app = express();
-function compile(str, path) {
-    return stylus(str).set('filename', path);
-}
 
-app.set('views', __dirname + '/server/views'); //set the views property to the path where i'm going to hold my views.
-app.set('view engine', 'jade'); //set the view engine
-app.use(logger('dev'));
-app.use(stylus.middleware( //configuring stylus middleware
-    {
-        src: __dirname + '/public',
-        compile: compile
+var config = require('./server/config/config')[env];
+
+require('./server/config/express') (app, config);
+
+require('./server/config/mongoose') (config);
+
+var User = mongoose.model('User');
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        User.findOne({username:username}).exec(function(err, user) {
+            if (user) {
+                return done(null, user);
+            } else {
+                return done(null, false);
+            }
+        });
     }
 ));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
 
-app.use(express.static(__dirname + '/public'));
+passport.serializeUser(function(user, done) {
+    if(user) {
+        done(null, user._id);
+    }
+});
 
-if (env === 'development') {
-    mongoose.connect('mongodb://localhost/multivision');
-} else {
-    mongoose.connect('mongodb://kbarlow:multivision@ds011830.mlab.com:11830/multivision');
-}
+passport.deserializeUser(function(id, done) {
+    User.findOne({_id:id}).exec(function(er, user) {
+        if (user) {
+            return done(null, user);
+        } else {
+            return done(null, false);
+        }
+    });
+});
+
+require('./server/config/routes') (app);
+
 console.log(env);
 
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error...'));
-db.once('open', function callback() {
-    console.log('multivision db is open');
-});
-// var messageSchema = mongoose.Schema({message: String});
-// var Message = mongoose.model('Message', messageSchema);
-// var mongoMessage;
-// Message.findOne().exec(function(err, messageDoc) {
-//     mongoMessage = messageDoc.message;
-// });
-
-
-app.get('/partials/:partialPath', function(req, res) {
-    res.render("partials/" + req.params.partialPath);
-});
-
-app.get('*', function(req, res) { //the * matches all routes.
-    res.render('index');
-});
-
-var port = process.env.PORT || 3030;
-app.listen(port, function() {
-    console.log("listening on " + port);
+app.listen(config.port, function() {
+    console.log("listening on " + config.port);
 });
