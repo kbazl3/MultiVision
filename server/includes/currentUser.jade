@@ -1,0 +1,14 @@
+if !!bootstrappedUser
+    script.
+        window.bootstrappedUserObject = !{JSON.stringify(bootstrappedUser)}
+        
+        //- Now that that data's available to the template, we can go back into our current user template and we can check and see if that data exists. 
+        //- And that way, we won't write out any extra HTML if there's no authenticated user. We'll create a script tag and we'll use JADE's line continuation. 
+        //- And here, we'll set the global variable to contain that bootstrapped user object. 
+        //- Now, I want to make sure this is a fairly unique name, so I'm going to stick it in a variable called "bootstrapped user object". 
+        //- That should be a pretty unique name. And then, I'll use JADE string interpolation. 
+        //- And, I want to put that bootstrapped user here, but I want it in JSON form, so I'm going to call "JSON.stringify" and pass in the bootstrapped user. 
+        //- So, again, this is the name of the variable that has been created by our template.
+        //-  Bootstrapped user is an object that's only available on the server and only available at the time that it interprets the JADE file and turns the template into actual HTML. 
+        //-  The script that's going to get written out is going to have a variable called "bootstrapped user object" that's going to be set to the JSON form of the bootstrapped user. 
+        //-  And, at this point, for any page requests that already have an authenticated user, we're going to have a script tag that contains our bootstrapped user object. 
