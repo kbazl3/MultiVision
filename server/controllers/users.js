@@ -48,6 +48,6 @@ exports.updateUser = function(req, res) {
                 reason: err.toString()
             });
         }
-        res.send(req.user); 
+        res.send(req.user);
     });
 };

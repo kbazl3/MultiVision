@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var userModel = require('../models/User');
+var courseModel = require('../models/Course');
 
 module.exports = function(config) {
     mongoose.connect(config.db);
@@ -10,4 +11,5 @@ module.exports = function(config) {
     });
 
     userModel.createDefaultUsers();
+    courseModel.createDefaultCourses();
 };
