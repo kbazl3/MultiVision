@@ -11,3 +11,23 @@ exports.authenticate = function(req, res, next) {
     });
     auth(req, res, next);
 };
+
+exports.requiresApiLogin = function(req, res, next) {
+    if(!req.isAuthenticated()) { //checks whether or not the user is authenticated
+        res.status(403); //checks whether or not the user is authenticated
+        res.end();
+    } else {
+        next(); //Otherwise, we'll call "next"
+    }
+};
+
+exports.requiresRole = function(role) {
+    return function(req, res, next) {
+        if (!req.isAuthenticated() || req.user.roles.indexOf(role) === -1) {
+            res.status(403);
+            res.end();
+        } else {
+            next();
+        }
+    };
+};

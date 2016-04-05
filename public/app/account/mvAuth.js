@@ -19,8 +19,17 @@ angular.module('app').factory('mvAuth', function($http, mvIdentity, $q, mvUser) 
             $http.post('/logout', {logout: true}).then(function() {
                 mvIdentity.currentUser = undefined;
                 dfd.resolve();
-            })
+            });
             return dfd.promise;
+        },
+        authorizeCurrentUserForRoute: function(role) {
+            if(mvIdentity.isAuthorized('admin')) {
+                console.log("here");
+                return true;
+            } else {
+                console.log("here");
+                return $q.reject('not authorized');
+            }
         }
 
     };
