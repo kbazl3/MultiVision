@@ -34,13 +34,13 @@ module.exports = function(config) {
             var salt, hash;
             salt = createSalt();
             hash = hashPwd(salt, 'joe');
-            User.create({firstName: 'Joe', lastName: 'Eames', username: 'joe', salt: salt, hashed_pwd: hash, roles: ['admin']});//joe is given the 'admin' role
+            User.create({firstname: 'Joe', lastname: 'Eames', username: 'joe', salt: salt, hashed_pwd: hash, roles: ['admin']});//joe is given the 'admin' role
             salt = createSalt();
             hash = hashPwd(salt, 'john');
-            User.create({firstName: 'John', lastName: 'Papa', username: 'john', salt: salt, hashed_pwd: hash, roles: []});
+            User.create({firstname: 'John', lastname: 'Papa', username: 'john', salt: salt, hashed_pwd: hash, roles: []});
             salt = createSalt();
             hash = hashPwd(salt, 'kb');
-            User.create({firstName: 'Kyle', lastName: 'Bas', username: 'kb', salt: salt, hashed_pwd: hash});
+            User.create({firstname: 'Kyle', lastname: 'Bas', username: 'kb', salt: salt, hashed_pwd: hash});
         }
     });
 };
